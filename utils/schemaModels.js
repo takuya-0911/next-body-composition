@@ -27,7 +27,9 @@ const InnerScanSchema = new Schema({
     age:{
         type: "int",
     },
-
+    height:{
+        type: "int",
+    }
 });
 
 export const UserModel = mongoose.models.User || mongoose.model("User", UserSchema);
