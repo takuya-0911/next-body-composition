@@ -1,7 +1,7 @@
 import connectDB from "../../../utils/database";
 import { UserModel } from "../../../utils/schemaModels";
 
-const registerUser = async(req, res) => {
+const RegisterUser = async(req, res) => {
     try {
         await connectDB();
         await UserModel.create(req.body);
@@ -11,4 +11,4 @@ const registerUser = async(req, res) => {
     }
 }
 
-export default registerUser;
+export default RegisterUser;

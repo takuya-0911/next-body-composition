@@ -26,6 +26,16 @@ const UserSchema = new Schema({
 });
 
 const InnerScanSchema = new Schema({
+    id:{
+        type: String,
+        required: true,
+        unique: true
+    },
+    ScanDate:{
+        type: Date,
+        required: true,
+        unique: true
+    },
     height:{
         type: Schema.Types.Decimal128,
         required: true
