@@ -37,7 +37,11 @@ export default NextAuth({
                     await connectDB();
                     const foundUser = await findUser(credentials.login);
                     if (foundUser.password === credentials.password) {
-                        return foundUser;
+                        const user = {
+                            name: foundUser['id'],
+                            email: foundUser['email'],
+                          };
+                        return user;
                     } else {
                         return null;
                     }
@@ -47,17 +51,5 @@ export default NextAuth({
             },
         }),
     ],
-    callbacks: {
-        session: async (session, user) => {
-            console.log(session);
-            console.log(user);
-            return Promise.resolve({
-              ...session,
-              user: {
-                ...session.user,
-                id: user.id
-              }
-            });
-        }
-    }
+    secret: 'secret',
 });
