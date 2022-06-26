@@ -3,6 +3,7 @@ import GoogleProvider from 'next-auth/providers/google';
 import CredentialsProvider from "next-auth/providers/credentials";
 import connectDB from "../../../utils/database";
 import { UserModel } from "../../../utils/schemaModels";
+import bcrypt from 'bcrypt';
 
 /**
  * IDまたはEmailからユーザを検索
@@ -36,7 +37,8 @@ export default NextAuth({
                 try {
                     await connectDB();
                     const foundUser = await findUser(credentials.login);
-                    if (foundUser.password === credentials.password) {
+                    const result = await bcrypt.compare(credentials.password, foundUser.password);
+                    if (result) {
                         const user = {
                             name: foundUser['id'],
                             email: foundUser['email'],
@@ -51,5 +53,19 @@ export default NextAuth({
             },
         }),
     ],
+    callbacks: {
+        async jwt({ token, account }) {
+            if (account) {
+                console.log(account);
+                // ログイン区分判定
+                token.login_kbn = account.provider
+            }
+            return token
+          },
+          async session({ session, token }) {
+            session.login_kbn = token.login_kbn
+            return session
+          }
+      },
     secret: 'secret',
 });
