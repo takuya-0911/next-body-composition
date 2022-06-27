@@ -56,9 +56,8 @@ const InnerScanSchema = new Schema({
     email:{
         type: String,
         required: true,
-        unique: true
     },
-    ScanDate:{
+    scandate:{
         type: Date,
         required: true,
         unique: true

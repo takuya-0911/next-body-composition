@@ -6,8 +6,8 @@
 </head>
 <body>
     <h1>体組成計登録</h1>
-    <form action="http://localhost:3000/api/innerscan/delete/62b1b3c7b9c27bcaaafc9f1d" method="post">
-        <input type="date" name="scanDate" placeholder="日付" required><br>
+    <form action="http://localhost:3000/api/innerscan/62b99f3a2ff02da291761a30" method="post">
+        <input type="date" name="scandate" placeholder="日付" required><br>
         <input type="number" step="0.1" name="height" placeholder="身長" required>cm<br>
         <input type="number" step="0.1" name="weight" placeholder="体重" required>kg<br>
         <input type="number" step="0.1" name="body_fat" placeholder="体脂肪率">%<br>
@@ -24,7 +24,7 @@
         <input type="number" step="0.1" name="standard_weight" placeholder="標準体重">kg<br>
         <input type="number" step="0.1" name="degree_of_obesity" placeholder="肥満度">%<br>
         <button>登録</button>
-        <input type="hidden" name="id" value="tk">
+        <input type="hidden" name="email" value="tksepii@gmail.com">
         <input type="hidden" name="login_kbn" value="credentials">
     </form>
 </body>
