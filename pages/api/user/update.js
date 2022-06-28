@@ -12,7 +12,7 @@ const UpdateUser = async(req, res) => {
             await UserModel.updateOne({email: req.body.email}, req.body);
         }
         // ユーザ個人情報更新
-        await UserPersonalModel.updateOne({login_kbn: req.body.login_kbn, email: req.body.email}, req.body);
+        await UserPersonalModel.updateOne({login_kbn: req.body.login_kbn, email: req.body.email}, req.body, {upsert:true});
         return res.status(400).json({message: "ユーザ編集成功"});
     } catch (error) {
         return res.status(400).json({message: "ユーザ編集失敗"});
