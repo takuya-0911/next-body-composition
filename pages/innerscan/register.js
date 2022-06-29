@@ -1,9 +1,17 @@
-import { signIn, signOut, useSession } from 'next-auth/react'
+import { useSession } from 'next-auth/react'
+import { useRouter } from "next/router";
 import { useState } from 'react';
 import Head from 'next/head';
 
 const RegisterInnerScan = () => {
-    const { data: session } = useSession();
+    const router = useRouter();
+    const { data: session } = useSession({
+        required: true,
+        onUnauthenticated() {
+          // 認証されていないのでトップへ
+          router.push("/");
+        },
+    });
     const [newInnerScan, setNewInnerScan] = useState({
         scandate: "",
         height: "",
@@ -54,7 +62,7 @@ const RegisterInnerScan = () => {
     }
 
     return (
-        <div>
+        <>
             <Head><title>体組成計データ登録</title></Head>
             <h1>体組成計データ登録</h1>
             <form onSubmit={handleSubmit}>
@@ -76,7 +84,7 @@ const RegisterInnerScan = () => {
                 <input type="number" value={newInnerScan.degree_of_obesity} onChange={handleChange} step="0.1" name="degree_of_obesity" placeholder="肥満度"/>%<br/>
                 <button>登録</button>
             </form>
-        </div>
+        </>
     )
 
 };

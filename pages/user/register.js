@@ -36,7 +36,7 @@ const Register = () => {
     }
 
     return (
-        <div>
+        <>
             <Head><title>ユーザ登録</title></Head>
             <h1>ユーザ登録</h1>
             <form onSubmit={handleSubmit}>
@@ -51,7 +51,7 @@ const Register = () => {
                 <input value={newUser.birthday} onChange={handleChange} type="date" name="birthday" placeholder="生年月日"/>
                 <button>登録</button>
             </form>
-        </div>
+        </>
     )
 };
 
