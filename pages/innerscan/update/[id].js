@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { useState } from 'react';
 import Head from 'next/head';
 
-const RegisterInnerScan = () => {
+const UpdateInnerScan = (props) => {
     const router = useRouter();
     const { data: session } = useSession({
         required: true,
@@ -13,22 +13,22 @@ const RegisterInnerScan = () => {
         },
     });
     const [newInnerScan, setNewInnerScan] = useState({
-        scandate: "",
-        height: "",
-        weight: "",
-        body_fat: "",
-        fat_mass: "",
-        lean_body_mass: "",
-        muscle_mass: "",
-        body_water: "",
-        total_body_water: "",
-        bone_mass: "",
-        bmr: "",
-        visceral_fat_level: "",
-        leg_score: "",
-        bmi: "",
-        standard_weight: "",
-        degree_of_obesity: ""
+        scandate: props.singleScan.scandate.toString().substr(0,10),
+        height: props.singleScan.height.$numberDecimal,
+        weight: props.singleScan.weight.$numberDecimal,
+        body_fat: props.singleScan.body_fat.$numberDecimal,
+        fat_mass: props.singleScan.fat_mass.$numberDecimal,
+        lean_body_mass: props.singleScan.lean_body_mass.$numberDecimal,
+        muscle_mass: props.singleScan.muscle_mass.$numberDecimal,
+        body_water: props.singleScan.body_water.$numberDecimal,
+        total_body_water: props.singleScan.total_body_water.$numberDecimal,
+        bone_mass: props.singleScan.bone_mass.$numberDecimal,
+        bmr: props.singleScan.bmr,
+        visceral_fat_level: props.singleScan.visceral_fat_level,
+        leg_score: props.singleScan.leg_score,
+        bmi: props.singleScan.bmi.$numberDecimal,
+        standard_weight: props.singleScan.standard_weight.$numberDecimal,
+        degree_of_obesity: props.singleScan.degree_of_obesity.$numberDecimal
     });
 
     const handleChange = (e) => {
@@ -42,7 +42,7 @@ const RegisterInnerScan = () => {
         e.preventDefault();
         session.user["login_kbn"] = session.login_kbn
         try {
-            const response = await fetch("http://localhost:3000/api/innerscan/register", {
+            const response = await fetch(`http://localhost:3000/api/innerscan/update/${props.singleScan._id}`, {
                 method: "POST",
                 headers: {
                     "Accept": "application/json",
@@ -53,14 +53,14 @@ const RegisterInnerScan = () => {
             const jsonData = await response.json();
             alert(jsonData.message);
         } catch (error) {
-            alert("体組成計登録失敗");
+            alert("体組成計編集失敗");
         }
     }
 
     return (
         <>
-            <Head><title>体組成計データ登録</title></Head>
-            <h1>体組成計データ登録</h1>
+            <Head><title>体組成計データ編集</title></Head>
+            <h1>体組成計データ編集</h1>
             <form onSubmit={handleSubmit}>
                 <input type="date" value={newInnerScan.scandate} onChange={handleChange} name="scandate" placeholder="日付" required/><br/>
                 <input type="number" value={newInnerScan.height} onChange={handleChange} step="0.1" name="height" placeholder="身長" required/>cm<br/>
@@ -78,11 +78,20 @@ const RegisterInnerScan = () => {
                 <input type="number" value={newInnerScan.bmi} onChange={handleChange} step="0.1" name="bmi" placeholder="BMI"/><br/>
                 <input type="number" value={newInnerScan.standard_weight} onChange={handleChange} step="0.1" name="standard_weight" placeholder="標準体重"/>kg<br/>
                 <input type="number" value={newInnerScan.degree_of_obesity} onChange={handleChange} step="0.1" name="degree_of_obesity" placeholder="肥満度"/>%<br/>
-                <button>登録</button>
+                <button>編集</button>
             </form>
         </>
     )
 
 };
 
-export default RegisterInnerScan;
+export default UpdateInnerScan;
+
+export const getServerSideProps = async(contex) => {
+    const response = await fetch(`http://localhost:3000/api/innerscan/${contex.query.id}`);
+    console.log();
+    const singleScan = await response.json();
+    return {
+        props: singleScan
+    }
+}
