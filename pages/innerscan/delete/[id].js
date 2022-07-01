@@ -14,7 +14,7 @@ const DeleteInnerScan = (props) => {
     const handleSubmit = async(e) => {
         e.preventDefault();
         try {
-            const response = await fetch(`http://localhost:3000/api/innerscan/delete/${props.singleItem._id}`, {
+            const response = await fetch(`http://localhost:3000/api/innerscan/delete/${props.singleScan._id}`, {
                 method: "POST",
                 headers: {
                     "Accept": "application/json",
@@ -33,7 +33,7 @@ const DeleteInnerScan = (props) => {
             <Head><title>体組成計データ</title></Head>
             <h1>体組成計データ</h1>
             <form onSubmit={handleSubmit}>
-                <p>{props.singleScan.scandate.toString().substr(0,10)}</p>
+                <p>{props.singleScan.scandate}</p>
                 <p>{props.singleScan.height.$numberDecimal}</p>
                 <p>{props.singleScan.weight.$numberDecimal}</p>
                 <p>{props.singleScan.body_fat.$numberDecimal}</p>
@@ -43,7 +43,7 @@ const DeleteInnerScan = (props) => {
                 <p>{props.singleScan.body_water.$numberDecimal}</p>
                 <p>{props.singleScan.total_body_water.$numberDecimal}</p>
                 <p>{props.singleScan.bone_mass.$numberDecimal}</p>
-                <p>{props.singleScan.bmr.$numberDecimal}</p>
+                <p>{props.singleScan.bmr}</p>
                 <p>{props.singleScan.visceral_fat_level}</p>
                 <p>{props.singleScan.leg_score}</p>
                 <p>{props.singleScan.bmi.$numberDecimal}</p>
