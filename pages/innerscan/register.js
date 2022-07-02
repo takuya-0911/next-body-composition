@@ -13,7 +13,7 @@ const RegisterInnerScan = () => {
         },
     });
     const [newInnerScan, setNewInnerScan] = useState({
-        scandate: "",
+        scandate: router.query.scandate,
         height: "",
         weight: "",
         body_fat: "",
