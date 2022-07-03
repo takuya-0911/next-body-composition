@@ -66,22 +66,22 @@ const UpdateInnerScan = (props) => {
             <Head><title>体組成計データ編集</title></Head>
             <h1>体組成計データ編集</h1>
             <form onSubmit={handleSubmit}>
-                <input type="date" value={newInnerScan.scandate} onChange={handleChange} name="scandate" placeholder="日付" required/><br/>
-                <input type="number" value={newInnerScan.height} onChange={handleChange} step="0.1" name="height" placeholder="身長" required/>cm<br/>
-                <input type="number" value={newInnerScan.weight} onChange={handleChange} step="0.1" name="weight" placeholder="体重" required/>kg<br/>
-                <input type="number" value={newInnerScan.body_fat} onChange={handleChange} step="0.1" name="body_fat" placeholder="体脂肪率"/>%<br/>
-                <input type="number" value={newInnerScan.fat_mass} onChange={handleChange} step="0.1" name="fat_mass" placeholder="脂肪量"/>kg<br/>
-                <input type="number" value={newInnerScan.lean_body_mass} onChange={handleChange} step="0.1" name="lean_body_mass" placeholder="徐脂肪量"/>kg<br/>
-                <input type="number" value={newInnerScan.muscle_mass} onChange={handleChange} step="0.1" name="muscle_mass" placeholder="筋肉量"/>kg<br/>
-                <input type="number" value={newInnerScan.body_water} onChange={handleChange} step="0.1" name="body_water" placeholder="体水分量"/>kg<br/>
-                <input type="number" value={newInnerScan.total_body_water} onChange={handleChange} step="0.1" name="total_body_water" placeholder="体水分率"/>%<br/>
-                <input type="number" value={newInnerScan.bone_mass} onChange={handleChange} step="0.1" name="bone_mass" placeholder="推定骨量"/>kg<br/>
-                <input type="number" value={newInnerScan.bmr} onChange={handleChange} name="bmr" placeholder="基礎代謝量"/>kcal<br/>
-                <input type="number" value={newInnerScan.visceral_fat_level} onChange={handleChange} name="visceral_fat_level" placeholder="内臓脂肪レベル"/><br/>
-                <input type="number" value={newInnerScan.leg_score} onChange={handleChange} name="leg_score" placeholder="脚点"/>点<br/><br/>
-                <input type="number" value={newInnerScan.bmi} onChange={handleChange} step="0.1" name="bmi" placeholder="BMI"/><br/>
-                <input type="number" value={newInnerScan.standard_weight} onChange={handleChange} step="0.1" name="standard_weight" placeholder="標準体重"/>kg<br/>
-                <input type="number" value={newInnerScan.degree_of_obesity} onChange={handleChange} step="0.1" name="degree_of_obesity" placeholder="肥満度"/>%<br/>
+            <p><label for="scandate">日付：</label><input type="date" value={newInnerScan.scandate} onChange={handleChange} id="scandate" name="scandate" placeholder="日付" required/></p>
+                <p><label for="height">身長：</label><input type="number" value={newInnerScan.height} onChange={handleChange} step="0.1" name="height" placeholder="身長" required/>cm</p>
+                <p><label for="weight">体重：</label><input type="number" value={newInnerScan.weight} onChange={handleChange} step="0.1" name="weight" placeholder="体重" required/>kg</p>
+                <p><label for="body_fat">体脂肪率：</label><input type="number" value={newInnerScan.body_fat} onChange={handleChange} step="0.1" name="body_fat" placeholder="体脂肪率"/>%</p>
+                <p><label for="fat_mass">脂肪量：</label><input type="number" value={newInnerScan.fat_mass} onChange={handleChange} step="0.1" name="fat_mass" placeholder="脂肪量"/>kg</p>
+                <p><label for="lean_body_mass">徐脂肪量：</label><input type="number" value={newInnerScan.lean_body_mass} onChange={handleChange} step="0.1" name="lean_body_mass" placeholder="徐脂肪量"/>kg</p>
+                <p><label for="muscle_mass">筋肉量：</label><input type="number" value={newInnerScan.muscle_mass} onChange={handleChange} step="0.1" name="muscle_mass" placeholder="筋肉量"/>kg</p>
+                <p><label for="body_water">体水分量：</label><input type="number" value={newInnerScan.body_water} onChange={handleChange} step="0.1" name="body_water" placeholder="体水分量"/>kg</p>
+                <p><label for="total_body_water">体水分率：</label><input type="number" value={newInnerScan.total_body_water} onChange={handleChange} step="0.1" name="total_body_water" placeholder="体水分率"/>%</p>
+                <p><label for="bone_mass">推定骨量：</label><input type="number" value={newInnerScan.bone_mass} onChange={handleChange} step="0.1" name="bone_mass" placeholder="推定骨量"/>kg</p>
+                <p><label for="bmr">基礎代謝量：</label><input type="number" value={newInnerScan.bmr} onChange={handleChange} name="bmr" placeholder="基礎代謝量"/>kcal</p>
+                <p><label for="visceral_fat_level">内臓脂肪レベル：</label><input type="number" value={newInnerScan.visceral_fat_level} onChange={handleChange} name="visceral_fat_level" placeholder="内臓脂肪レベル"/></p>
+                <p><label for="leg_score">脚点：</label><input type="number" value={newInnerScan.leg_score} onChange={handleChange} name="leg_score" placeholder="脚点"/>点</p><br/>
+                <p><label for="bmi">BMI：</label><input type="number" value={newInnerScan.bmi} onChange={handleChange} step="0.1" name="bmi" placeholder="BMI"/></p>
+                <p><label for="standard_weight">標準体重：</label><input type="number" value={newInnerScan.standard_weight} onChange={handleChange} step="0.1" name="standard_weight" placeholder="標準体重"/>kg</p>
+                <p><label for="degree_of_obesity">肥満度：</label><input type="number" value={newInnerScan.degree_of_obesity} onChange={handleChange} step="0.1" name="degree_of_obesity" placeholder="肥満度"/>%</p>
                 <button>編集</button>
             </form>
         </>

@@ -28,6 +28,11 @@ const UpdateUser = async(req, res) => {
 
         } else if (LOGIN_KBN.CREDENTIALS === req.body.login_kbn && !!req.body.currentPassword) {
             return res.status(400).json({message: "変更後パスワードが入力されていません。"});
+        } else {
+            // IDのみ更新
+            const onlyId = {id: req.body.id}
+            // ユーザ情報更新
+            await UserModel.updateOne({email: req.body.email}, onlyId);
         }
         
         // ユーザ個人情報更新

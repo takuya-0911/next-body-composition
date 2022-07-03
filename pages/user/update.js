@@ -16,6 +16,7 @@ const UserUpdate = (props) => {
     });
 
     const [newUser, setNewUser] = useState({
+        id: session.user.name,
         currentPassword: "",
         newPassword: "",
         sex: props.userPersonal.sex || "default",
@@ -48,6 +49,7 @@ const UserUpdate = (props) => {
             });
             const jsonData = await response.json();
             alert(jsonData.message);
+            router.push("/innerscan/daily");
         } catch (error) {
             alert("ユーザ登録失敗");
         }
@@ -60,7 +62,7 @@ const UserUpdate = (props) => {
                 <Head><title>ユーザ情報編集</title></Head>
                 <h1>ユーザ情報編集</h1>
                 <form onSubmit={handleSubmit}>
-                    <p>{session.user.name}</p>
+                    <input value={newUser.id} onChange={handleChange} type="text" name="id" placeholder="ID" required/>
                     <p>{session.user.email}</p>
                     <input value={newUser.currentPassword} onChange={handleChange} type="text" name="currentPassword" placeholder="現在のパスワード"/>
                     <input value={newUser.newPassword} onChange={handleChange} type="text" name="newPassword" placeholder="新しいパスワード"/>
@@ -81,7 +83,7 @@ const UserUpdate = (props) => {
             <Head><title>ユーザ情報編集</title></Head>
             <h1>ユーザ情報編集</h1>
             <form onSubmit={handleSubmit}>
-                <p>{session.user.name}</p>
+            <input value={newUser.id} onChange={handleChange} type="text" name="id" placeholder="ID" required/>
                 <p>{session.user.email}</p>
                 <select value={newUser.sex} onChange={handleChange} name="sex">
                     <option value="default" disabled hidden>性別</option>

@@ -27,6 +27,7 @@ const DeleteInnerScan = (props) => {
             });
             const jsonData = await response.json();
             alert(jsonData.message);
+            router.push("/innerscan/daily");
         } catch (error) {
             alert("体組成計削除失敗");
         }
