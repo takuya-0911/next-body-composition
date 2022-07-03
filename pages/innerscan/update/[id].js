@@ -5,13 +5,17 @@ import Head from 'next/head';
 
 const UpdateInnerScan = (props) => {
     const router = useRouter();
-    const { data: session } = useSession({
+    const { data: session, status: loading } = useSession({
         required: true,
         onUnauthenticated() {
           // 認証されていないのでトップへ
           router.push("/");
         },
     });
+    // ロード中
+    if (loading === 'loading') {
+        return <div>Loading...</div>
+    }
     const [newInnerScan, setNewInnerScan] = useState({
         scandate: props.singleScan.scandate.toString().substr(0,10),
         height: props.singleScan.height.$numberDecimal,
@@ -89,7 +93,6 @@ export default UpdateInnerScan;
 
 export const getServerSideProps = async(contex) => {
     const response = await fetch(`http://localhost:3000/api/innerscan/${contex.query.id}`);
-    console.log();
     const singleScan = await response.json();
     return {
         props: singleScan

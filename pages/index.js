@@ -1,20 +1,26 @@
-import { signIn, signOut, useSession } from 'next-auth/react'
+import { signIn, signOut, useSession } from 'next-auth/react';
+import { useRouter } from 'next/router';
 
 export default function Home() {
-  const { data: session } = useSession();
+  const router = useRouter();
+  const { data: session, status: loading } = useSession();
+
+  // ロード中
+  if (loading === 'loading') {
+    return <div>Loading...</div>
+  }
 
   if (session) {
-    return (
-      <>
-        Signed in as {session.user.name} <br />
-        <button onClick={() => signOut()}>Sign out</button>
-      </>
-    )
+
+    router.push("/innerscan/daily");
+    return null;
   }
+
   return (
     <>
       Not signed in <br />
       <button onClick={() => signIn()}>Sign in</button>
+      <button onClick={() => router.push("/user/register")}><a>新規登録</a></button>
     </>
   )
 }

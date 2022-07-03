@@ -5,13 +5,17 @@ import Head from 'next/head';
 
 const ReadInnerScan = (props) => {
     const router = useRouter();
-    useSession({
+    const {status: loading} = useSession({
         required: true,
         onUnauthenticated() {
           // 認証されていないのでトップへ
           router.push("/");
         },
     });
+    // ロード中
+    if (loading === 'loading') {
+        return <div>Loading...</div>
+    }
     return (
         <>
             <Head><title>体組成計データ</title></Head>

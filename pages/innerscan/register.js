@@ -5,13 +5,18 @@ import Head from 'next/head';
 
 const RegisterInnerScan = () => {
     const router = useRouter();
-    const { data: session } = useSession({
+    const { data: session, status: loading } = useSession({
         required: true,
         onUnauthenticated() {
           // 認証されていないのでトップへ
           router.push("/");
         },
     });
+    if (loading === 'loading') {
+        return <div>Loading...</div>
+    }
+    console.log(loading);
+
     const [newInnerScan, setNewInnerScan] = useState({
         scandate: router.query.scandate,
         height: "",

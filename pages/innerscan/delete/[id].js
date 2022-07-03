@@ -4,13 +4,17 @@ import Head from 'next/head';
 
 const DeleteInnerScan = (props) => {
     const router = useRouter();
-    useSession({
+    const {status: loading} = useSession({
         required: true,
         onUnauthenticated() {
           // 認証されていないのでトップへ
           router.push("/");
         },
     });
+    // ロード中
+    if (loading === 'loading') {
+        return <div>Loading...</div>
+    }
     const handleSubmit = async(e) => {
         e.preventDefault();
         try {

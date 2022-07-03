@@ -1,12 +1,23 @@
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from '@fullcalendar/interaction'
-import { getSession } from 'next-auth/react';
+import { getSession, useSession } from 'next-auth/react';
 import { useRouter } from "next/router";
 import ja from '@fullcalendar/core/locales/ja';
 
 const DailyInnerScan = (props) => {
   const router = useRouter();
+  const {status: loading} = useSession({
+    required: true,
+    onUnauthenticated() {
+        // 認証されていないのでトップへ
+        router.push("/");
+      },
+  });
+  // ロード中
+  if (loading === "loading") {
+    return <div>Loading...</div>
+  }
 
   // イベントリストに変換
   const eventsList = props.monthScan.map( data => {
@@ -36,7 +47,7 @@ const DailyInnerScan = (props) => {
         plugins={[dayGridPlugin, interactionPlugin]}
         selectable={true}
         locale={ja}
-        initialEvents={[{ title: "initial event", start: new Date() }]}
+        initialEvents={[{ title: "Current time", start: new Date() }]}
         events={eventsList}
         dateClick={handleCLick}
       />
@@ -48,17 +59,19 @@ export default DailyInnerScan;
 
 export const getServerSideProps = async(ctx) => {
   const session = await getSession(ctx);
+
+  if (!session) {
+    return {props: {monthScan: []}};
+  }
+  
   session.user["login_kbn"] = session.login_kbn
-  // 月初を取得
-  let today = new Date(new Date().setDate(1));
-  const bigiMonth = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-  const response = await fetch("http://localhost:3000/api/innerscan/period", {
+  const response = await fetch("http://localhost:3000/api/innerscan/all", {
     method: "POST",
     headers: {
         "Accept": "application/json",
         "Content-Type": "application/json"
     },
-    body: JSON.stringify(Object.assign({bigiMonth: bigiMonth}, session.user))
+    body: JSON.stringify(session.user)
   });
   const monthScan = await response.json();
   return {

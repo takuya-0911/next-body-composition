@@ -7,7 +7,7 @@ import bcrypt from 'bcrypt';
 const RegisterUser = async(req, res) => {
     try {
         await connectDB();
-        console.log(req);
+        // パスワード暗号化
         const hashedPass = await bcrypt.hash(req.body.password, 10);
         req.body.password = hashedPass;
         req.body.login_kbn = LOGIN_KBN.CREDENTIALS;
