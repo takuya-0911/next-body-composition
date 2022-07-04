@@ -1,4 +1,4 @@
-import { signIn, signOut, useSession } from 'next-auth/react'
+import { signOut, useSession } from 'next-auth/react'
 import Link from "next/link";
 
 const Header = () => {
@@ -8,11 +8,9 @@ const Header = () => {
         return (
             <header>
                 <nav>
-                        <>
-                            {session.user.name}<br/>
-                            <Link href={"/user/update"}><a>Settings</a></Link>
-                            <button onClick={() => signOut()}>Sign out</button>
-                        </>
+                    {session.user.name}<br/>
+                    <Link href={"/user/update"}><a>Settings</a></Link>
+                    <button onClick={() => signOut()}>Sign out</button>
                 </nav>
             </header>
         )
@@ -21,8 +19,6 @@ const Header = () => {
       return (
         <header>
             <nav>
-                    <>
-                    </>
             </nav>
         </header>
     )

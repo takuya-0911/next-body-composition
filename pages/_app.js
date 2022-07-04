@@ -1,12 +1,14 @@
-import '../styles/globals.css'
+// import '../styles/globals.css'
+import 'tailwindcss/tailwind.css';
 import { SessionProvider } from 'next-auth/react';
-import Header from '../components/header';
+import Layout from '../components/layout'
 
 function MyApp({ Component, pageProps }) {
   return (
     <SessionProvider session={pageProps.session}>
-      <Header/>
+      <Layout>
       <Component {...pageProps} />
+      </Layout>
     </SessionProvider>
   )
 }
