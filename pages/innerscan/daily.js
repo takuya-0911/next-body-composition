@@ -63,7 +63,6 @@ export const getServerSideProps = async(ctx) => {
   if (!session) {
     return {props: {monthScan: []}};
   }
-  
   session.user["login_kbn"] = session.login_kbn
   const response = await fetch("http://localhost:3000/api/innerscan/all", {
     method: "POST",

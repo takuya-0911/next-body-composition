@@ -1,12 +1,12 @@
 import { useState } from "react";
-import Head from "next/head";
+import Head from "../../components/head";
 
 const Register = () => {
     const [newUser, setNewUser] = useState({
         id: "",
         email: "",
         password: "",
-        sex: "default",
+        sex: "",
         birthday: ""
     });
 
@@ -37,19 +37,36 @@ const Register = () => {
 
     return (
         <>
-            <Head><title>ユーザ登録</title></Head>
-            <h1>ユーザ登録</h1>
-            <form onSubmit={handleSubmit}>
-                <input value={newUser.id} onChange={handleChange} type="text" name="id" placeholder="ID" required/>
-                <input value={newUser.email} onChange={handleChange} type="text" name="email" placeholder="メールアドレス" required/>
-                <input value={newUser.password} onChange={handleChange} type="text" name="password" placeholder="パスワード" required/>
-                <select value={newUser.sex} onChange={handleChange} name="sex">
-                    <option value="default" disabled hidden>性別</option>
-                    <option value="男性">男性</option>
-                    <option value="女性">女性</option>
-                </select>
-                <input value={newUser.birthday} onChange={handleChange} type="date" name="birthday" placeholder="生年月日"/>
-                <button>登録</button>
+            <Head
+                title={'ユーザ登録'}
+            />
+            <h1 className="px-2 py-1 text-gray-800 text-xl font-bold">ユーザ登録</h1>
+            <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-6 m-2">
+                <label className="block">
+                    <span className="text-gray-700 font-semibold">ID</span>
+                    <input className="mt-1 block w-full" value={newUser.id} onChange={handleChange} type="text" name="id" required/>
+                </label>
+                <label className="block">
+                <span className="text-gray-700 font-semibold">メールアドレス</span>
+                    <input className="mt-1 block w-full" value={newUser.email} onChange={handleChange} type="text" name="email" placeholder="Email@exsample.com" required/>
+                </label>
+                <label className="block">
+                    <span className="text-gray-700 font-semibold">性別</span>
+                    <input className="mt-1 block w-full" value={newUser.password} onChange={handleChange} type="text" name="password" required/>
+                </label>
+                <label className="block">
+                    <span className="text-gray-700 font-semibold">性別</span>
+                    <select className="block w-full mt-1" value={newUser.sex} onChange={handleChange} name="sex">
+                        <option value=""></option>
+                        <option value="男性">男性</option>
+                        <option value="女性">女性</option>
+                    </select>
+                </label>
+                <label className="block">
+                    <span className="text-gray-700 font-semibold">生年月日</span>
+                    <input className="mt-1 block w-full" value={newUser.birthday} onChange={handleChange} type="date" name="birthday"/>
+                </label>
+                <button className='mt-2 w-20 px-2 py-1 bg-red-400 text-white font-semibold rounded hover:bg-red-500'>登録</button>
             </form>
         </>
     )
