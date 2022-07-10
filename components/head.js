@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Head from 'next/head';
 
-export default ({ title }) => {
+const HeadEvent = ({ title }) => {
   return (
     <Head>
       <title>{title}</title>
@@ -10,3 +10,5 @@ export default ({ title }) => {
     </Head>
   );
 };
+
+export default HeadEvent;
