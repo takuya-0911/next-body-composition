@@ -15,21 +15,21 @@ const RegisterInnerScan = () => {
     });
     const [newInnerScan, setNewInnerScan] = useState({
         scandate: router.query.scandate,
-        height: "",
-        weight: "",
-        body_fat: "",
-        fat_mass: "",
-        lean_body_mass: "",
-        muscle_mass: "",
-        body_water: "",
-        total_body_water: "",
-        bone_mass: "",
-        bmr: "",
-        visceral_fat_level: "",
-        leg_score: "",
-        bmi: "",
-        standard_weight: "",
-        degree_of_obesity: ""
+        height: null,
+        weight: null,
+        body_fat: null,
+        fat_mass: null,
+        lean_body_mass: null,
+        muscle_mass: null,
+        body_water: null,
+        total_body_water: null,
+        bone_mass: null,
+        bmr: null,
+        visceral_fat_level: null,
+        leg_score: null,
+        bmi: null,
+        standard_weight: null,
+        degree_of_obesity: null
     });
     if (loading === 'loading') {
         return <div>Loading...</div>
@@ -124,32 +124,32 @@ const RegisterInnerScan = () => {
                             <tr className='border-b'>
                                 <td className="px-2 py-2 whitespace-nowrap text-sm font-medium text-gray-900">体水分率</td>
                                 <td className='text-sm text-gray-900 font-normal px-2 py-2 whitespace-nowrap'>
-                                    <input type="number" data-maxdigit="3" value={newInnerScan.total_body_water} onChange={handleChange} step="0.1" name="total_body_water" placeholder="体水分率"/>%
+                                    <input type="number" data-maxdigit="2" value={newInnerScan.total_body_water} onChange={handleChange} step="0.1" name="total_body_water" placeholder="体水分率"/>%
                                 </td>
                             </tr>
                             <tr className='border-b'>
                                 <td className="px-2 py-2 whitespace-nowrap text-sm font-medium text-gray-900">推定骨量</td>
                                 <td className='text-sm text-gray-900 font-normal px-2 py-2 whitespace-nowrap'>
-                                    <input type="number" data-maxdigit="3" value={newInnerScan.bone_mass} onChange={handleChange} step="0.1" name="bone_mass" placeholder="推定骨量"/>kg
+                                    <input type="number" data-maxdigit="2" value={newInnerScan.bone_mass} onChange={handleChange} step="0.1" name="bone_mass" placeholder="推定骨量"/>kg
                                 </td>
                             </tr>
                             <tr className='border-b'>
                                 <td className="px-2 py-2 whitespace-nowrap text-sm font-medium text-gray-900">基礎代謝量</td>
                                 <td className='text-sm text-gray-900 font-normal px-2 py-2 whitespace-nowrap'>
-                                    <input type="number" data-maxdigit="4" value={newInnerScan.bmr} onChange={handleChange} name="bmr" placeholder="基礎代謝量"/>kcal
+                                    <input type="number" max="9999" value={newInnerScan.bmr} onChange={handleChange} name="bmr" placeholder="基礎代謝量"/>kcal
                                 </td>
 
                             </tr>
                             <tr className='border-b'>
                                 <td className="px-2 py-2 whitespace-nowrap text-sm font-medium text-gray-900">内臓脂肪レベル</td>
                                 <td className='text-sm text-gray-900 font-normal px-2 py-2 whitespace-nowrap'>
-                                    <input type="number" data-maxdigit="3" value={newInnerScan.visceral_fat_level} onChange={handleChange} name="visceral_fat_level" placeholder="内臓脂肪レベル"/>    
+                                    <input type="number" max="100" value={newInnerScan.visceral_fat_level} onChange={handleChange} name="visceral_fat_level" placeholder="内臓脂肪レベル"/>    
                                 </td>
                             </tr>
                             <tr className='border-b'>
                                 <td className="px-2 py-2 whitespace-nowrap text-sm font-medium text-gray-900">脚点</td>
                                 <td className='text-sm text-gray-900 font-normal px-2 py-2 whitespace-nowrap'>
-                                    <input type="number" data-maxdigit="3" value={newInnerScan.leg_score} onChange={handleChange} name="leg_score" placeholder="脚点"/>点
+                                    <input type="number" max="999" value={newInnerScan.leg_score} onChange={handleChange} name="leg_score" placeholder="脚点"/>点
                                 </td>
                             </tr>
                         </tbody>
@@ -160,13 +160,13 @@ const RegisterInnerScan = () => {
                             <tr className='border-b'>
                                 <td className="px-2 py-2 whitespace-nowrap text-sm font-medium text-gray-900">BMI</td>
                                 <td className='text-sm text-gray-900 font-normal px-2 py-2 whitespace-nowrap'>
-                                    <input type="number" data-maxdigit="3" value={newInnerScan.bmi} onChange={handleChange} step="0.1" name="bmi" placeholder="BMI"/>
+                                    <input type="number" data-maxdigit="2" value={newInnerScan.bmi} onChange={handleChange} step="0.1" name="bmi" placeholder="BMI"/>
                                 </td>
                             </tr>
                             <tr className='border-b'>
                                 <td className="px-2 py-2 whitespace-nowrap text-sm font-medium text-gray-900">標準体重</td>
                                 <td className='text-sm text-gray-900 font-normal px-2 py-2 whitespace-nowrap'>
-                                    <input type="number" data-maxdigit="3" value={newInnerScan.standard_weight} onChange={handleChange} step="0.1" name="standard_weight" placeholder="標準体重"/>kg
+                                    <input type="number" data-maxdigit="2" value={newInnerScan.standard_weight} onChange={handleChange} step="0.1" name="standard_weight" placeholder="標準体重"/>kg
                                 </td>
                             </tr>
                             <tr className='border-b'>

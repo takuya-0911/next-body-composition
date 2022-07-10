@@ -9,6 +9,11 @@
  */
 const NumberLimit = (value, max) => {
 
+    // 最大桁数が設定されてない場合
+    if (!max) {
+        return value;
+    }
+
     // 返却値
     let retVal = "";
     // 数値正規表現
@@ -28,7 +33,6 @@ const NumberLimit = (value, max) => {
         // 整数部は最大桁数、小数点第一位まで
         retVal = `${intPart.slice(0,maxDigit)}.${decimalPoint.slice(0,1)}`;
     } else {
-        console.log(intPart.length, maxDigit + 1);
         // 小数点無し最大桁数の場合
         if (intPart.length == maxDigit + 1) {
             decimalPoint = intPart.slice(-1);
