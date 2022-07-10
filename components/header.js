@@ -8,12 +8,12 @@ const Header = () => {
         return (
             <header>
                 <nav className='bg-white border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-800'>
-                    <div class="container flex flex-wrap justify-between items-center mx-auto">
-                        <a href="/" class="flex items-center">
+                    <div className="container flex flex-wrap justify-between items-center mx-auto">
+                        <a href="/" className="flex items-center">
                             <span className='self-center text-xl font-semibold whitespace-nowrap dark:text-white'>Next Body Composition</span>
                         </a>
                         <div>
-                            <ul class="flex mt-4 flex-row space-x-8 md:mt-1 text-sm font-medium">
+                            <ul className="flex mt-4 flex-row space-x-8 md:mt-1 text-sm font-medium">
                                 <li>
                                 <a href="/" className="bg-transparent text-blue-500 p-0 dark:text-white" aria-current="page">トップ</a>
                                 </li>
