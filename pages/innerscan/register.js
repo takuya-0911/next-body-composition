@@ -46,7 +46,7 @@ const RegisterInnerScan = () => {
         e.preventDefault();
         session.user["login_kbn"] = session.login_kbn
         try {
-            const response = await fetch("http://localhost:3000/api/innerscan/register", {
+            const response = await fetch("https://next-body-composition.vercel.app/api/innerscan/register", {
                 method: "POST",
                 headers: {
                     "Accept": "application/json",

@@ -110,7 +110,7 @@ const ReadInnerScan = (props) => {
 export default ReadInnerScan;
 
 export const getServerSideProps = async(contex) => {
-    const response = await fetch(`http://localhost:3000/api/innerscan/${contex.query.id}`);
+    const response = await fetch(`https://next-body-composition.vercel.app/api/innerscan/${contex.query.id}`);
     const singleScan = await response.json();
     return {
         props: singleScan

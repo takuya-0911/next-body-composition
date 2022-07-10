@@ -38,7 +38,7 @@ const UserUpdate = (props) => {
         e.preventDefault();
         session.user["login_kbn"] = session.login_kbn
         try {
-            const response = await fetch("http://localhost:3000/api/user/update", {
+            const response = await fetch("https://next-body-composition.vercel.app/api/user/update", {
                 method: "POST",
                 headers: {
                     "Accept": "application/json",
@@ -110,7 +110,7 @@ export const getServerSideProps = async(ctx) => {
         return {props: {userPersonal: {sex: "",birthday: ""}}};
     }
     session.user["login_kbn"] = session.login_kbn
-    const response = await fetch(`http://localhost:3000/api/user/selectPersonal`, {
+    const response = await fetch(`https://next-body-composition.vercel.app/api/user/selectPersonal`, {
         method: "POST",
         headers: {
             "Accept": "application/json",

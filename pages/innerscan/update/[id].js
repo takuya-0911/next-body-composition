@@ -52,7 +52,7 @@ const UpdateInnerScan = (props) => {
         if (IS_UorD.UPDATE === buttonValue) {
             session.user["login_kbn"] = session.login_kbn
             try {
-                const response = await fetch(`http://localhost:3000/api/innerscan/update/${props.singleScan._id}`, {
+                const response = await fetch(`https://next-body-composition.vercel.app/api/innerscan/update/${props.singleScan._id}`, {
                     method: "POST",
                     headers: {
                         "Accept": "application/json",
@@ -69,7 +69,7 @@ const UpdateInnerScan = (props) => {
             // 削除ボタンの場合
             if (window.confirm("削除します。よろしいですか？")) {
                 try {
-                    const response = await fetch(`http://localhost:3000/api/innerscan/delete/${props.singleScan._id}`, {
+                    const response = await fetch(`https://next-body-composition.vercel.app/api/innerscan/delete/${props.singleScan._id}`, {
                         method: "POST",
                         headers: {
                             "Accept": "application/json",
@@ -216,7 +216,7 @@ const UpdateInnerScan = (props) => {
 export default UpdateInnerScan;
 
 export const getServerSideProps = async(contex) => {
-    const response = await fetch(`http://localhost:3000/api/innerscan/${contex.query.id}`);
+    const response = await fetch(`https://next-body-composition.vercel.app/api/innerscan/${contex.query.id}`);
     const singleScan = await response.json();
     return {
         props: singleScan

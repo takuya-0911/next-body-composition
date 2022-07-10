@@ -24,7 +24,7 @@ const DailyInnerScan = (props) => {
     const retData = {
       title: "登録済",
       start: data.scandate.toString().substr(0,10),
-      url: `http://localhost:3000/innerscan/${data._id}`,
+      url: `https://next-body-composition.vercel.app/innerscan/${data._id}`,
     };
 
     return retData;
@@ -64,7 +64,7 @@ export const getServerSideProps = async(ctx) => {
     return {props: {monthScan: []}};
   }
   session.user["login_kbn"] = session.login_kbn
-  const response = await fetch("http://localhost:3000/api/innerscan/all", {
+  const response = await fetch("https://next-body-composition.vercel.app/api/innerscan/all", {
     method: "POST",
     headers: {
         "Accept": "application/json",
