@@ -54,64 +54,51 @@ const UserUpdate = (props) => {
         }
     }
 
-    // 独自ユーザの場合
-    if (LOGIN_KBN.CREDENTIALS === session.login_kbn) {
-        return (
-            <>
-                <Head
-                title={'ユーザ情報編集'}
-                />
-                <h1 className="px-2 py-1 text-gray-800 text-xl font-bold">ユーザ情報編集</h1>
-                <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-6 m-2">
-                    <label className="block">
-                        <span className="text-gray-700 font-semibold">ID</span>
-                        <input className="mt-1 block w-full" value={session.user.name} onChange={handleChange} type="text" name="id" placeholder="ID" required/>
-                    </label>
-                    <span className="text-gray-700 font-semibold">メールアドレス</span>
-                    <p className="mt-0">{session.user.email}</p>
-                    <label className="block">
-                        <span className="text-gray-700 font-semibold">現在のパスワード</span>
-                        <input className="mt-1 block w-full" value={newUser.currentPassword} onChange={handleChange} type="text" name="currentPassword" placeholder="現在のパスワード"/>
-                    </label>
-                    <label className="block">
-                        <span className="text-gray-700 font-semibold">新しいパスワード</span>
-                        <input className="mt-1 block w-full" value={newUser.newPassword} onChange={handleChange} type="text" name="newPassword" placeholder="新しいパスワード"/>
-                    </label>
-                    <label className="block">
-                        <span className="text-gray-700 font-semibold">性別</span>    
-                        <select className="block w-full mt-1" value={newUser.sex} onChange={handleChange} name="sex">
-                            <option value=""></option>
-                            <option value="男性">男性</option>
-                            <option value="女性">女性</option>
-                        </select>
-                    </label>
-                    <label className="block">
-                        <span className="text-gray-700 font-semibold">生年月日</span>
-                        <input className="mt-1 block w-full" value={newUser.birthday} onChange={handleChange} type="date" name="birthday"/>
-                    </label>
-                    <button className='mt-2 w-20 px-2 py-1 bg-red-400 text-white font-semibold rounded hover:bg-red-500'>編集</button>
-                </form>
-            </>
-        )
-    }
+    // 独自ユーザフラグ
+    const credentialFlg = LOGIN_KBN.CREDENTIALS === session.login_kbn;
 
     return (
         <>
-            <Head><title>ユーザ情報編集</title></Head>
-            <h1>ユーザ情報編集</h1>
-            <form onSubmit={handleSubmit}>
-            <input value={newUser.id} onChange={handleChange} type="text" name="id" placeholder="ID" required/>
-                <p>{session.user.email}</p>
-                <select value={newUser.sex} onChange={handleChange} name="sex">
-                    <option value="default" disabled hidden>性別</option>
-                    <option value="男性">男性</option>
-                    <option value="女性">女性</option>
-                </select>
-                <input value={newUser.birthday} onChange={handleChange} type="date" name="birthday" placeholder="生年月日"/>
-                <button>編集</button>
+            <Head
+            title={'ユーザ情報編集'}
+            />
+            <h1 className="px-2 py-1 text-gray-800 text-xl font-bold">ユーザ情報編集</h1>
+            <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-6 m-2">
+                { credentialFlg ?
+                <label className="block">
+                    <span className="text-gray-700 font-semibold">ID</span>
+                    <input className="mt-1 block w-full" value={session.user.name} onChange={handleChange} type="text" name="id" placeholder="ID" required/>
+                </label>
+                : <><span className="text-gray-700 font-semibold">名前</span>
+                <p className="mt-0 border-b">{session.user.name}</p></> }
+                <span className="text-gray-700 font-semibold">メールアドレス</span>
+                <p className="mt-0 border-b">{session.user.email}</p>
+                { credentialFlg ?
+                <label className="block">
+                    <span className="text-gray-700 font-semibold">現在のパスワード</span>
+                    <input className="mt-1 block w-full" value={newUser.currentPassword} onChange={handleChange} type="text" name="currentPassword" placeholder="現在のパスワード"/>
+                </label> : null}
+                { credentialFlg ?
+                <label className="block">
+                    <span className="text-gray-700 font-semibold">新しいパスワード</span>
+                    <input className="mt-1 block w-full" value={newUser.newPassword} onChange={handleChange} type="text" name="newPassword" placeholder="新しいパスワード"/>
+                </label> : null}
+                <label className="block">
+                    <span className="text-gray-700 font-semibold">性別</span>    
+                    <select className="block w-full mt-1" value={newUser.sex} onChange={handleChange} name="sex">
+                        <option value=""></option>
+                        <option value="男性">男性</option>
+                        <option value="女性">女性</option>
+                    </select>
+                </label>
+                <label className="block">
+                    <span className="text-gray-700 font-semibold">生年月日</span>
+                    <input className="mt-1 block w-full" value={newUser.birthday} onChange={handleChange} type="date" name="birthday"/>
+                </label>
+                <button className='mt-2 w-20 px-2 py-1 bg-red-400 text-white font-semibold rounded hover:bg-red-500'>編集</button>
             </form>
         </>
-    )    
+    )
 };
 
 export default UserUpdate;

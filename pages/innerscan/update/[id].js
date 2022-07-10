@@ -1,7 +1,8 @@
 import { useSession } from 'next-auth/react'
 import { useRouter } from "next/router";
 import { useState } from 'react';
-import Head from 'next/head';
+import Head from '../../../components/head';
+import { IS_UorD } from '../../../constants/constants';
 
 const UpdateInnerScan = (props) => {
     const router = useRouter();
@@ -12,10 +13,7 @@ const UpdateInnerScan = (props) => {
           router.push("/");
         },
     });
-    // ロード中
-    if (loading === 'loading') {
-        return <div>Loading...</div>
-    }
+    const [buttonValue, setButtonValue] = useState({value: ""});
     const [newInnerScan, setNewInnerScan] = useState({
         scandate: props.singleScan.scandate.toString().substr(0,10),
         height: props.singleScan.height.$numberDecimal,
@@ -35,6 +33,11 @@ const UpdateInnerScan = (props) => {
         degree_of_obesity: props.singleScan.degree_of_obesity.$numberDecimal
     });
 
+    // ロード中
+    if (loading === 'loading') {
+        return <div>Loading...</div>
+    }
+    
     const handleChange = (e) => {
         setNewInnerScan({
             ...newInnerScan,
@@ -44,45 +47,166 @@ const UpdateInnerScan = (props) => {
 
     const handleSubmit = async(e) => {
         e.preventDefault();
-        session.user["login_kbn"] = session.login_kbn
-        try {
-            const response = await fetch(`http://localhost:3000/api/innerscan/update/${props.singleScan._id}`, {
-                method: "POST",
-                headers: {
-                    "Accept": "application/json",
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(Object.assign(newInnerScan, session.user))
-            });
-            const jsonData = await response.json();
-            alert(jsonData.message);
-        } catch (error) {
-            alert("体組成計編集失敗");
+
+        // 編集ボタン押下の場合
+        if (IS_UorD.UPDATE === buttonValue) {
+            session.user["login_kbn"] = session.login_kbn
+            try {
+                const response = await fetch(`http://localhost:3000/api/innerscan/update/${props.singleScan._id}`, {
+                    method: "POST",
+                    headers: {
+                        "Accept": "application/json",
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(Object.assign(newInnerScan, session.user))
+                });
+                const jsonData = await response.json();
+                alert(jsonData.message);
+            } catch (error) {
+                alert("体組成計編集失敗");
+            }
+        } else {
+            // 削除ボタンの場合
+            if (window.confirm("削除します。よろしいですか？")) {
+                try {
+                    const response = await fetch(`http://localhost:3000/api/innerscan/delete/${props.singleScan._id}`, {
+                        method: "POST",
+                        headers: {
+                            "Accept": "application/json",
+                            "Content-Type": "application/json"
+                        },
+                    });
+                    const jsonData = await response.json();
+                    alert(jsonData.message);
+                    router.push("/innerscan/daily");
+                } catch (error) {
+                    alert("体組成計削除失敗");
+                }
+            }
         }
     }
 
     return (
         <>
-            <Head><title>体組成計データ編集</title></Head>
-            <h1>体組成計データ編集</h1>
-            <form onSubmit={handleSubmit}>
-            <p><label for="scandate">日付：</label><input type="date" value={newInnerScan.scandate} onChange={handleChange} id="scandate" name="scandate" placeholder="日付" required/></p>
-                <p><label for="height">身長：</label><input type="number" value={newInnerScan.height} onChange={handleChange} step="0.1" name="height" placeholder="身長" required/>cm</p>
-                <p><label for="weight">体重：</label><input type="number" value={newInnerScan.weight} onChange={handleChange} step="0.1" name="weight" placeholder="体重" required/>kg</p>
-                <p><label for="body_fat">体脂肪率：</label><input type="number" value={newInnerScan.body_fat} onChange={handleChange} step="0.1" name="body_fat" placeholder="体脂肪率"/>%</p>
-                <p><label for="fat_mass">脂肪量：</label><input type="number" value={newInnerScan.fat_mass} onChange={handleChange} step="0.1" name="fat_mass" placeholder="脂肪量"/>kg</p>
-                <p><label for="lean_body_mass">徐脂肪量：</label><input type="number" value={newInnerScan.lean_body_mass} onChange={handleChange} step="0.1" name="lean_body_mass" placeholder="徐脂肪量"/>kg</p>
-                <p><label for="muscle_mass">筋肉量：</label><input type="number" value={newInnerScan.muscle_mass} onChange={handleChange} step="0.1" name="muscle_mass" placeholder="筋肉量"/>kg</p>
-                <p><label for="body_water">体水分量：</label><input type="number" value={newInnerScan.body_water} onChange={handleChange} step="0.1" name="body_water" placeholder="体水分量"/>kg</p>
-                <p><label for="total_body_water">体水分率：</label><input type="number" value={newInnerScan.total_body_water} onChange={handleChange} step="0.1" name="total_body_water" placeholder="体水分率"/>%</p>
-                <p><label for="bone_mass">推定骨量：</label><input type="number" value={newInnerScan.bone_mass} onChange={handleChange} step="0.1" name="bone_mass" placeholder="推定骨量"/>kg</p>
-                <p><label for="bmr">基礎代謝量：</label><input type="number" value={newInnerScan.bmr} onChange={handleChange} name="bmr" placeholder="基礎代謝量"/>kcal</p>
-                <p><label for="visceral_fat_level">内臓脂肪レベル：</label><input type="number" value={newInnerScan.visceral_fat_level} onChange={handleChange} name="visceral_fat_level" placeholder="内臓脂肪レベル"/></p>
-                <p><label for="leg_score">脚点：</label><input type="number" value={newInnerScan.leg_score} onChange={handleChange} name="leg_score" placeholder="脚点"/>点</p><br/>
-                <p><label for="bmi">BMI：</label><input type="number" value={newInnerScan.bmi} onChange={handleChange} step="0.1" name="bmi" placeholder="BMI"/></p>
-                <p><label for="standard_weight">標準体重：</label><input type="number" value={newInnerScan.standard_weight} onChange={handleChange} step="0.1" name="standard_weight" placeholder="標準体重"/>kg</p>
-                <p><label for="degree_of_obesity">肥満度：</label><input type="number" value={newInnerScan.degree_of_obesity} onChange={handleChange} step="0.1" name="degree_of_obesity" placeholder="肥満度"/>%</p>
-                <button>編集</button>
+            <Head
+            title={'体組成計データ編集'}
+            />
+            <h1 className="px-2 py-1 text-gray-800 text-xl font-bold">体組成計データ編集</h1>
+            <form className="grid grid-cols-1 gap-6 m-2" onSubmit={handleSubmit}>
+                <div className='flex flex-col'>
+                    <span className='text-base text-blue-900 px-2 py-2 font-medium'>
+                        <input type="date" value={newInnerScan.scandate} onChange={handleChange} id="scandate" name="scandate" placeholder="日付" required/>
+                    </span>
+                    <table>
+                        <colgroup>
+                            <col span='1' className='w-2/12'/>
+                            <col span='1' className='w-10/12'/>
+                        </colgroup>
+                        <tbody>
+                            <tr className='border-b'>
+                                <td className="px-2 py-2 whitespace-nowrap text-sm font-medium text-gray-900">身長</td>
+                                <td className='text-sm text-gray-900 font-normal px-2 py-2 whitespace-nowrap'>
+                                    <input type="number" value={newInnerScan.height} onChange={handleChange} step="0.1" name="height" required/>cm
+                                </td>
+                            </tr>
+                            <tr className='border-b'>
+                                <td className="px-2 py-2 whitespace-nowrap text-sm font-medium text-gray-900">体重</td>
+                                <td className='text-sm text-gray-900 font-normal px-2 py-2 whitespace-nowrap'>
+                                    <input type="number" value={newInnerScan.weight} onChange={handleChange} step="0.1" name="weight" required/>kg
+                                </td>
+                            </tr>
+                            <tr className='border-b'>
+                                <td className="px-2 py-2 whitespace-nowrap text-sm font-medium text-gray-900">体脂肪率</td>
+                                <td className='text-sm text-gray-900 font-normal px-2 py-2 whitespace-nowrap'>
+                                    <input type="number" value={newInnerScan.body_fat} onChange={handleChange} step="0.1" name="body_fat"/>%
+                                </td>
+                            </tr>
+                            <tr className='border-b'>
+                                <td className="px-2 py-2 whitespace-nowrap text-sm font-medium text-gray-900">脂肪量</td>
+                                <td className='text-sm text-gray-900 font-normal px-2 py-2 whitespace-nowrap'>
+                                    <input type="number" value={newInnerScan.fat_mass} onChange={handleChange} step="0.1" name="fat_mass" placeholder="脂肪量"/>kg
+                                </td>
+                            </tr>
+                            <tr className='border-b'>
+                                <td className="px-2 py-2 whitespace-nowrap text-sm font-medium text-gray-900">徐脂肪量</td>
+                                <td className='text-sm text-gray-900 font-normal px-2 py-2 whitespace-nowrap'>
+                                    <input type="number" value={newInnerScan.lean_body_mass} onChange={handleChange} step="0.1" name="lean_body_mass" placeholder="徐脂肪量"/>kg
+                                </td>
+                            </tr>
+                            <tr className='border-b'>
+                                <td className="px-2 py-2 whitespace-nowrap text-sm font-medium text-gray-900">筋肉量</td>
+                                <td className='text-sm text-gray-900 font-normal px-2 py-2 whitespace-nowrap'>
+                                    <input type="number" value={newInnerScan.muscle_mass} onChange={handleChange} step="0.1" name="muscle_mass" placeholder="筋肉量"/>kg
+                                </td>
+                            </tr>
+                            <tr className='border-b'>
+                                <td className="px-2 py-2 whitespace-nowrap text-sm font-medium text-gray-900">体水分量</td>
+                                <td className='text-sm text-gray-900 font-normal px-2 py-2 whitespace-nowrap'>
+                                    <input type="number" value={newInnerScan.body_water} onChange={handleChange} step="0.1" name="body_water" placeholder="体水分量"/>kg
+                                </td>
+                            </tr>
+                            <tr className='border-b'>
+                                <td className="px-2 py-2 whitespace-nowrap text-sm font-medium text-gray-900">体水分率</td>
+                                <td className='text-sm text-gray-900 font-normal px-2 py-2 whitespace-nowrap'>
+                                    <input type="number" value={newInnerScan.total_body_water} onChange={handleChange} step="0.1" name="total_body_water" placeholder="体水分率"/>%
+                                </td>
+                            </tr>
+                            <tr className='border-b'>
+                                <td className="px-2 py-2 whitespace-nowrap text-sm font-medium text-gray-900">推定骨量</td>
+                                <td className='text-sm text-gray-900 font-normal px-2 py-2 whitespace-nowrap'>
+                                    <input type="number" value={newInnerScan.bone_mass} onChange={handleChange} step="0.1" name="bone_mass" placeholder="推定骨量"/>kg
+                                </td>
+                            </tr>
+                            <tr className='border-b'>
+                                <td className="px-2 py-2 whitespace-nowrap text-sm font-medium text-gray-900">基礎代謝量</td>
+                                <td className='text-sm text-gray-900 font-normal px-2 py-2 whitespace-nowrap'>
+                                    <input type="number" value={newInnerScan.bmr} onChange={handleChange} name="bmr" placeholder="基礎代謝量"/>kcal
+                                </td>
+
+                            </tr>
+                            <tr className='border-b'>
+                                <td className="px-2 py-2 whitespace-nowrap text-sm font-medium text-gray-900">内臓脂肪レベル</td>
+                                <td className='text-sm text-gray-900 font-normal px-2 py-2 whitespace-nowrap'>
+                                    <input type="number" value={newInnerScan.visceral_fat_level} onChange={handleChange} name="visceral_fat_level" placeholder="内臓脂肪レベル"/>    
+                                </td>
+                            </tr>
+                            <tr className='border-b'>
+                                <td className="px-2 py-2 whitespace-nowrap text-sm font-medium text-gray-900">脚点</td>
+                                <td className='text-sm text-gray-900 font-normal px-2 py-2 whitespace-nowrap'>
+                                    <input type="number" value={newInnerScan.leg_score} onChange={handleChange} name="leg_score" placeholder="脚点"/>点
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tbody className='border-spacing-1 mt-3'>
+                            <tr>
+                                <td className='py-4'></td><td className='py-4'></td>
+                            </tr>
+                            <tr className='border-b'>
+                                <td className="px-2 py-2 whitespace-nowrap text-sm font-medium text-gray-900">BMI</td>
+                                <td className='text-sm text-gray-900 font-normal px-2 py-2 whitespace-nowrap'>
+                                    <input type="number" value={newInnerScan.bmi} onChange={handleChange} step="0.1" name="bmi" placeholder="BMI"/>
+                                </td>
+                            </tr>
+                            <tr className='border-b'>
+                                <td className="px-2 py-2 whitespace-nowrap text-sm font-medium text-gray-900">標準体重</td>
+                                <td className='text-sm text-gray-900 font-normal px-2 py-2 whitespace-nowrap'>
+                                    <input type="number" value={newInnerScan.standard_weight} onChange={handleChange} step="0.1" name="standard_weight" placeholder="標準体重"/>kg
+                                </td>
+                            </tr>
+                            <tr className='border-b'>
+                                <td className="px-2 py-2 whitespace-nowrap text-sm font-medium text-gray-900">肥満度</td>
+                                <td className='text-sm text-gray-900 font-normal px-2 py-2 whitespace-nowrap'>
+                                    <input type="number" value={newInnerScan.degree_of_obesity} onChange={handleChange} step="0.1" name="degree_of_obesity" placeholder="肥満度"/>%
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                    <button className='mx-2 w-20 px-2 py-1 bg-blue-400 text-white font-semibold rounded hover:bg-blue-500' onClick={() => setButtonValue(IS_UorD.UPDATE)}>編集</button>
+                    <button className='mx-2 w-20 px-2 py-1 bg-red-400 text-white font-semibold rounded hover:bg-red-500' onClick={() => setButtonValue(IS_UorD.DELETE)}>削除</button>
+                </div>
+                
             </form>
         </>
     )
