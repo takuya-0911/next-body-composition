@@ -8,6 +8,7 @@ const RegisterInnerScan = async(req, res) => {
         await InnerScanModel.create(req.body);
         return res.status(200).json({message: "体組成計データ登録成功"});
     } catch (error) {
+        console.log(error);
         return res.status(400).json({message: "体組成計データ登録失敗"});
     }
 }
