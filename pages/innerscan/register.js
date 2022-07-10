@@ -58,6 +58,7 @@ const RegisterInnerScan = () => {
             alert(jsonData.message);
             router.push("/innerscan/daily");
         } catch (error) {
+            console.log(error);
             alert("体組成計登録失敗");
         }
     }
