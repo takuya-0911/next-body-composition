@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { useState } from 'react';
 import Head from '../../../components/head';
 import { IS_UorD } from '../../../constants/constants';
-import NumberLimit from '../../utils/input';
+import NumberLimit from '../../../utils/input';
 
 const UpdateInnerScan = (props) => {
     const router = useRouter();
