@@ -56,7 +56,6 @@ export default NextAuth({
     callbacks: {
         async jwt({ token, account }) {
             if (account) {
-                console.log(account);
                 // ログイン区分判定
                 token.login_kbn = account.provider
             }

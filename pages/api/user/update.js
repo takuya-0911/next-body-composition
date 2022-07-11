@@ -15,11 +15,8 @@ const UpdateUser = async(req, res) => {
             
             if (result) {
                 // パスワード暗号化
-                console.log(req.body.newPassword);
                 const hashedPass = await bcrypt.hash(req.body.newPassword, 10);
-                console.log(hashedPass);
                 req.body.password = hashedPass;
-                console.log(req.body);
                 // ユーザ情報更新
                 await UserModel.updateOne({email: req.body.email}, req.body);
             } else {
